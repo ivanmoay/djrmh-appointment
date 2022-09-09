@@ -39,7 +39,25 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'meeting_time_length' => 'required|integer',
+            'slots' => 'required|integer',
+        ]);
+
+        $start_time = $request->st_hr.':'.$request->st_min.':00';
+
+        $is_enabled = ($request->enabled == 'on') ? 1 : 0;
+
+        Service::create([
+            'name' => $request->name,
+            'enabled' => $is_enabled,
+            'meeting_time_length' => $request->meeting_time_length,
+            'slots' => $request->slots,
+            'start_time' => $start_time
+        ]);
+
+        return redirect()->route('services');
     }
 
     /**

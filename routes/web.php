@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services');
-// Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
 Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
 // Route::get('/services/{service}', [ServiceController::class, 'edit'])->name('services.edit');
 // Route::post('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
