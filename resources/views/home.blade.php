@@ -1,9 +1,6 @@
-@include ('components.header')
+@extends('layouts.app')
 
-  @include ('components.navbar')
-
-  @include ('components.sidebar')
-
+@section('content')
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -57,4 +54,4 @@
   </aside>
   <!-- /.control-sidebar -->
 
-  @include ('components.footer')
+  @endsection
