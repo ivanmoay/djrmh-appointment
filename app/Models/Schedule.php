@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class Schedule extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'enabled',
-        'meeting_time_length',
-        'slots',
-        'days',
-        'start_time'
+        'service_id',
+        'day',
+        'start_time',
+        'end_time'
     ];
 }

@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <!-- Sweet Alert -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -23,11 +25,20 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="/" class="nav-link">Dashboard</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="#" class="nav-link">Appointments</a>
       </li>      
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Schedule Appointment</a>
+      </li>    
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{route('services')}}" class="nav-link">Services</a>
+      </li>  
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Logout</a>
+      </li>    
     </ul>
 
     <!-- Right navbar links -->
@@ -62,7 +73,7 @@
           
           <li class="nav-item">
             <a href="/" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="fas fa-columns"></i>
               <p>
                 Dashboard
               </p>
@@ -71,7 +82,7 @@
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="far fa-calendar-check"></i>
               <p>
                 Appointments
               </p>
@@ -80,7 +91,7 @@
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="far fa-calendar"></i>
               <p>
                 Schedule Appointment
               </p>
@@ -89,7 +100,7 @@
 
           <li class="nav-item">
             <a href="{{route('services')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="fas fa-star-of-life"></i>
               <p>
                 Services
               </p>
@@ -98,7 +109,7 @@
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="fas fa-sign-out-alt"></i>
               <p>
                 Logout
               </p>

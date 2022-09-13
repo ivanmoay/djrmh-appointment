@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -26,6 +25,14 @@
               <div class="card-header">
                 <h3 class="card-title"></h3>
 
+                @if ($message = Session::get('delete_success'))
+                  <script>
+                    swal("Service and related schedules deleted.", "", "success", {
+                      button:"OK",
+                    })
+                  </script>
+                @endif                
+
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">                    
                       
@@ -42,6 +49,7 @@
                       <th>Service</th>
                       <th>Length</th>
                       <th>Slots</th>
+                      <th>Days</th>
                       <th>Start Time</th>
                       <th>Enabled</th>
                       <th>Actions</th>
@@ -52,11 +60,21 @@
                     @foreach ($services as $service)
                       <tr>
                         <td>{{$service->name}}</td>
-                        <td>{{$service->meeting_time_length}}</td>
+                        <td>{{$service->meeting_time_length}} minutes</td>
                         <td>{{$service->slots}}</td>
+                        <td>{{str_replace('|','',$service->days)}}</td>
                         <td>{{$service->start_time}}</td>
-                        <td>{{$service->enabled}}</td>
-                        <td></td>
+                        <td>{{$service->enabled == 1 ? 'Yes':'No';}}</td>
+                        <td>
+                          <a href="#"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
+                          <a href="{{route('services.edit', $service->id)}}"><i class="far fa-edit"></i></a>&nbsp;&nbsp;
+                          <a href="{{route('services.destroy', $service->id)}}"><i class="fa fa-trash-alt"></i></a>&nbsp;&nbsp;
+                          {{--<form action="" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="btn btn-outline-primary btn-xs"><i class="fa fa-trash-alt"></i></button>
+                          </form>--}}
+                        </td>
                       </tr>
                     @endforeach
                     @else
