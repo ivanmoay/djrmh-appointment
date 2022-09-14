@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -35,8 +36,56 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $start_time = $request->st_hr.':'.$request->st_min.':00';
+
+        $time = strtotime($start_time);
+        $end_time = date("H:i", strtotime('+'.$request->meeting_time_length.' minutes', $time));
+        if($request->m == 'on'){
+            Schedule::create([
+                'service_id' => $request->service_id,
+                'day' => 'M',
+                'start_time' => $start_time,
+                'end_time' => $end_time
+            ]);
+        }
+        if($request->t == 'on'){
+            Schedule::create([
+                'service_id' => $request->service_id,
+                'day' => 'T',
+                'start_time' => $start_time,
+                'end_time' => $end_time
+            ]);
+        }
+        if($request->w == 'on'){
+            Schedule::create([
+                'service_id' => $request->service_id,
+                'day' => 'W',
+                'start_time' => $start_time,
+                'end_time' => $end_time
+            ]);
+        }
+        if($request->th == 'on'){
+            Schedule::create([
+                'service_id' => $request->service_id,
+                'day' => 'TH',
+                'start_time' => $start_time,
+                'end_time' => $end_time
+            ]);
+        }
+        if($request->f == 'on'){
+            Schedule::create([
+                'service_id' => $request->service_id,
+                'day' => 'F',
+                'start_time' => $start_time,
+                'end_time' => $end_time
+            ]);
+        }
+
+        return back()->with('insert_success', 'Schedule added.');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -80,6 +129,8 @@ class ScheduleController extends Controller
      */
     public function destroy(Schedule $schedule)
     {
-        //
+        $schedule->delete();
+
+        return back()->with('delete_success', 'Schedule deleted.');
     }
 }

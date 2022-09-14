@@ -119,6 +119,17 @@ class ServiceController extends Controller
         //
     }
 
+    public function service_schedule(Service $service)
+    {
+
+        $schedule = Schedule::where('service_id', $service->id)->orderBy('start_time')->get();
+
+        return view('services.schedule', [
+            'schedule' => $schedule,
+            'service'  => $service
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

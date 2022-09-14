@@ -28,10 +28,10 @@
         <a href="/" class="nav-link">Dashboard</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Appointments</a>
+        <a href="{{route('appointments')}}" class="nav-link">Appointments</a>
       </li>      
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Schedule Appointment</a>
+        <a href="{{route('appointments.create')}}" class="nav-link">Schedule Appointment</a>
       </li>    
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{route('services')}}" class="nav-link">Services</a>
@@ -81,7 +81,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('appointments')}}" class="nav-link">
               <i class="far fa-calendar-check"></i>
               <p>
                 Appointments
@@ -90,7 +90,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('appointments.create')}}" class="nav-link">
               <i class="far fa-calendar"></i>
               <p>
                 Schedule Appointment

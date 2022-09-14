@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Services</h1>
+            <h1 class="m-0">Appointments</h1>
           </div><!-- /.col -->
           
         </div><!-- /.row -->
@@ -24,19 +24,10 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title"></h3>
-
-                @if ($message = Session::get('delete_success'))
-                  <script>
-                    swal("Service and related schedules deleted.", "", "success", {
-                      button:"OK",
-                    })
-                  </script>
-                @endif                
-
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">                    
                       
-                      <a href="{{route('services.create')}}" class="btn btn-block btn-primary" role="button" aria-pressed="true">Add Service</a>
+                      <a href="{{route('appointments.create')}}" class="btn btn-block btn-primary" role="button" aria-pressed="true">Add Appointment</a>
                     
                   </div>
                 </div>
@@ -46,40 +37,40 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>Service</th>
-                      <th>Length</th>
-                      <th>Slots</th>
-                      <th>Days</th>
-                      <th>Start Time</th>
-                      <th>Enabled</th>
+                      <th>HRN</th>
+                      <th>Name</th>
+                      <th>Chief Complaint</th>
+                      <th>Type</th>                      
+                      <th>Appointment</th>
+                      <th>Time</th>
+                      <th>Contact Number</th>
+                      <th>Date Booked</th>
+                      <th>Booked by</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>                    
-                    @if($services->count())
-                    @foreach ($services as $service)
+                    @if($appointments->count())
+                    @foreach ($appointments as $appointment)
                       <tr>
-                        <td>{{$service->name}}</td>
-                        <td>{{$service->meeting_time_length}} minutes</td>
-                        <td>{{$service->slots}}</td>
-                        <td>{{str_replace('|','',$service->days)}}</td>
-                        <td>{{$service->start_time}}</td>
-                        <td>{{$service->enabled == 1 ? 'Yes':'No';}}</td>
+                        <td>{{$appointment->hrn}}</td>
+                        <td>{{$appointment->last_name.', '.$appointment->first_name.' '.$appointment->middle_name.' '.$appointment->ext_name}}</td>
+                        <td>{{$appointment->chief_complaint}}</td>
+                        <td>{{$appointment->appointment_type}}</td>
+                        <td>{{$appointment->appointment_date}}</td>
+                        <td>{{$appointment->start_time.'-'.$appointment->start_time}}</td>
+                        <td>{{$appointment->contact_number}}</td>
+                        <td>{{$appointment->created_at}}</td>
+                        <td>{{$appointment->booked_by}}</td>
                         <td>
-                          <a href="{{route('service.schedule', $service->id)}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
-                          <a href="{{route('services.edit', $service->id)}}"><i class="far fa-edit"></i></a>&nbsp;&nbsp;
-                          <a href="{{route('services.destroy', $service->id)}}"><i class="fa fa-trash-alt"></i></a>&nbsp;&nbsp;
-                          {{--<form action="" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" class="btn btn-outline-primary btn-xs"><i class="fa fa-trash-alt"></i></button>
-                          </form>--}}
+                          <a href=""><i class="far fa-eye"></i></a>&nbsp;&nbsp;
+                          <a href=""><i class="fa fa-trash-alt"></i></a>&nbsp;&nbsp;
                         </td>
                       </tr>
                     @endforeach
                     @else
                       <tr>
-                        <td colspan="7">There are no services.</td>
+                        <td colspan="7">There are no appointments.</td>
                       </tr>
                     @endif
                   </tbody>

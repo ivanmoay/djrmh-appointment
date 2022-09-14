@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +26,10 @@ Route::get('/services/create', [ServiceController::class, 'create'])->name('serv
 Route::get('/services/delete/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
 Route::get('/services/{service}', [ServiceController::class, 'edit'])->name('services.edit');
 Route::post('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
-// Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
+Route::get('/service/schedule/{service}',[ServiceController::class, 'service_schedule'])->name('service.schedule');
+
+Route::get('/schedule/delete/{schedule}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
+Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+
+Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
+Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
