@@ -30,69 +30,197 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="#" method="GET">
-                @csrf
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">HRN</label>
-                    <input type="input" name="name" class="form-control" id="exampleInputEmail1" required>                    
-                  </div>
 
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Chief Complaint</label>
-                    <input type="input" name="name" class="form-control" id="exampleInputEmail1" required>                    
-                  </div>
+              @php
+                  if(isset($_GET['form1'])){
+                    $day = date('D', strtotime($_GET['appointment_date']));
+                    if($day == 'Sat' || $day == 'Sun'){
+                      $date_error = true;
+                    }                    
+                  }
+              @endphp
+              @if(!isset($_GET['form1']) || @$date_error)
+                <form action="#" method="GET">
+                  {{--@csrf--}}
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">HRN</label>
+                      <input type="input" name="hrn" class="form-control" id="exampleInputEmail1" value="{{@$_GET['hrn']}}" required>                    
+                    </div>
 
-                  <div class="form-group">
-                    <label>Appointment Type</label>
-                    <select class="form-control">
-                      <option>New</option>
-                      <option>Follow-up</option>
-                    </select>
-                  </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Chief Complaint</label>
+                      <input type="input" name="chief_complaint" class="form-control" id="exampleInputEmail1" value="{{@$_GET['chief_complaint']}}" required>                    
+                    </div>
 
-
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Date</label>
-                    <div class="input-group m-2-sm"> 
-
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">Month</div>
-                      </div>
-                      <select class="form-control" name="st_hr">
-                        @for($i=1; $i <= 12; $i++)                        
-                        <option>{{str_pad($i, 2, '0', STR_PAD_LEFT)}}</option>
-                        @endfor
-                      </select> 
-
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">Day</div>
-                      </div>
-                      <select class="form-control" name="st_hr">
-                        @for($i=1; $i <= 31; $i++)                        
-                        <option>{{str_pad($i, 2, '0', STR_PAD_LEFT)}}</option>
-                        @endfor
-                      </select> 
-
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">Year</div>
-                      </div>
-                      <select class="form-control" name="st_hr">
-                        @for($i=2022; $i <= 2030; $i++)                        
-                        <option>{{str_pad($i, 2, '0', STR_PAD_LEFT)}}</option>
-                        @endfor
+                    <div class="form-group">
+                      <label>Appointment Type</label>
+                      <select class="form-control" name="appointment_type">
+                        <option {{@$_GET['appointment_type'] == 'New' ? 'selected' : ''}}>New</option>
+                        <option {{@$_GET['appointment_type'] == 'Follow-up' ? 'selected' : ''}}>Follow-up</option>
                       </select>
-                   </div> 
+                    </div>
+
+                    <div class="form-group">
+                      <label>Service</label>
+                      <select class="form-control" name="service_id" required>
+                        @php
+                          $services = App\Models\Service::orderBy('name')->get();
+                        @endphp
+                        <option value="">...</option>
+                        @foreach ($services as $service)
+                          <option value="{{$service->id}}">{{$service->name}}</option>
+                        @endforeach                        
+                      </select>
+                    </div>
+    
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Date @if (@$date_error)
+                        <code>{{'Error: only weekdays are allowed.'}}</code>
+                      @endif</label>
+                      <input id="datepicker" name="appointment_date" value="{{@$_GET['appointment_date']}}" required/>  
+                      <script>
+                        $('#datepicker').datepicker({
+                            uiLibrary: 'bootstrap4'                          
+                        });
+                    </script>              
+                    </div> 
+
                   </div>
-                  
+                  <!-- /.card-body -->
 
-                </div>
-                <!-- /.card-body -->
+                  <div class="card-footer">
+                    <button name="form1" type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              @else
+                <form action="{{route('appointments.store')}}" method="POST">
+                  @csrf
+                  <div class="card-body">    
+                    
+                    <input type="hidden" name="hrn" value="{{$_GET['hrn']}}">
+                    <input type="hidden" name="chief_complaint" value="{{$_GET['chief_complaint']}}">
+                    <input type="hidden" name="appointment_type" value="{{$_GET['appointment_type']}}">
+                    <input type="hidden" name="service_id" value="{{$_GET['service_id']}}">
+                    <input type="hidden" name="appointment_date" value="{{$_GET['appointment_date']}}">
+                    
+                    <div class="form-group">
+                      <label>Time</label>
+                      @php
+                        $day = date('D', strtotime($_GET['appointment_date']));
+                        if($day == 'Mon'){$day = 'M';}
+                        if($day == 'Tue'){$day = 'T';}
+                        if($day == 'Wed'){$day = 'W';}
+                        if($day == 'Thu'){$day = 'TH';}
+                        if($day == 'Fri'){$day = 'F';}
 
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-              </form>
+                        $schedules = App\Models\Schedule::where('service_id', $_GET['service_id'])->where('day', $day)->orderBy('start_time')->get();
+                      @endphp
+                      <select class="form-control" name="appointment_time" required>
+                        @foreach ($schedules as $sched)
+                          <option>{{$sched->start_time.'-'.$sched->end_time}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Last Name</label>
+                          <input type="input" name="last_name" class="form-control" id="exampleInputEmail1" required>                    
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">First Name</label>
+                          <input type="input" name="first_name" class="form-control" id="exampleInputEmail1" required>                    
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Middle Name</label>
+                          <input type="input" name="middle_name" class="form-control" id="exampleInputEmail1" required>                    
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Ext.(Jr.,Sr.,Etc.)</label>
+                          <input type="input" name="chief_complaint" class="form-control" id="exampleInputEmail1">                    
+                        </div>
+                      </div>
+                    </div>  
+                    
+                    <div class="row">
+                      <div class="col-5">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Date of Birth</label>
+                          <input id="datepicker2" name="date_of_birth" required/>  
+                          <script>
+                            $('#datepicker2').datepicker({
+                                uiLibrary: 'bootstrap4'                          
+                            });
+                        </script>              
+                        </div> 
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <label>Sex</label>
+                          <select class="form-control" name="appointment_type">
+                            <option>Male</option>
+                            <option>Female</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div> 
+
+                    <div class="row">
+                      <div class="col-5">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Contact Number</label>
+                          <input type="input" name="contact_number" class="form-control" id="exampleInputEmail1" required>                    
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Social Media</label>
+                          <input type="input" name="social_media" class="form-control" id="exampleInputEmail1" required>                    
+                        </div>
+                      </div>
+                    </div> 
+
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Barangay</label>
+                          <input type="input" name="barangay" class="form-control" id="exampleInputEmail1" required>                    
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">City</label>
+                          <input type="input" name="city" class="form-control" id="exampleInputEmail1" required>                    
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Province</label>
+                          <input type="input" name="province" class="form-control" id="exampleInputEmail1" required>                    
+                        </div>
+                      </div>
+                    </div> 
+
+                    
+
+
+                  </div>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              @endif
+
 
 
 

@@ -19,6 +19,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('chief_complaint');
             $table->string('appointment_type');
             $table->date('appointment_date');
+            $table->integer('service_id');
             $table->time('start_time');
             $table->time('end_time');
             $table->string('first_name');
@@ -33,6 +34,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('city');
             $table->string('province');
             $table->integer('booked_by')->nullable()->default(0);
+            $table->string('status');
             $table->timestamps();
         });
     }
