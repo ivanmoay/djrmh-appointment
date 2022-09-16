@@ -91,7 +91,7 @@
                         $('#datepicker').datepicker({
                             uiLibrary: 'bootstrap4'                          
                         });
-                    </script>              
+                      </script>              
                     </div> 
 
                   </div>
@@ -125,6 +125,7 @@
                         $appointments = App\Models\Appointment::
                                                                 where('service_id', $_GET['service_id'])
                                                                 ->where('appointment_date', date('Y-m-d H:i:s', strtotime($_GET['appointment_date'])))
+                                                                ->where('status', '!=', 'Cancelled')
                                                                 ->get();
                         $scheds = array();
                         foreach ($appointments as $a) {

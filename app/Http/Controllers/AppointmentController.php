@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -14,10 +15,32 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = appointment::orderBy('appointment_date')->get();
+        $services = service::orderBy('name')->get();
+        $appointments = appointment::orderBy('appointment_date');      
+        
+        if(isset($_GET['search'])){
+            /*$appointments
+                ->orWhere('hrn', 'like', '%'.$_GET['s_hrn'].'%')
+                ->orWhere('last_name', 'like', '%'.$_GET['s_name'].'%')
+                ->orWhere('first_name', 'like', '%'.$_GET['s_name'].'%')
+                ->where('service_id', $_GET['s_service_id'])
+                >orWhere('appointment_date', 'like', '%'.date('Y-m-d H:i:s', strtotime($_GET['s_appointment_date'])).'%');   */
+            $appointments
+                ->where('hrn', 'like', '%'.$_GET['s_hrn'].'%')
+                ->where('last_name', 'like', '%'.$_GET['s_name'].'%');
+            if(!empty($_GET['s_service_id'])){
+                $appointments
+                    ->where('service_id', $_GET['s_service_id']);
+            }
+            if(!empty($_GET['s_appointment_date'])){
+                $appointments
+                    ->where('appointment_date', date('Y-m-d H:i:s', strtotime($_GET['s_appointment_date'])));
+            }
+        }
 
         return view('appointments.index', [
-            'appointments' => $appointments
+            'appointments' => $appointments->get(),
+            'services' => $services
         ]);
     }
 
@@ -88,7 +111,9 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        //
+        return view('appointments.edit', [
+            'appointment' => $appointment
+        ]);
     }
 
     /**
@@ -100,7 +125,11 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        //
+        $appointment->update([
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('appointments')->with('update_success', 'Appointment updated.');
     }
 
     /**
