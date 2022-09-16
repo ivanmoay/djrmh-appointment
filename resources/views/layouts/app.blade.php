@@ -46,6 +46,9 @@
         <a href="{{route('services')}}" class="nav-link">Services</a>
       </li>  
       <li class="nav-item d-none d-sm-inline-block">
+        <a href="" class="nav-link">Users</a>
+      </li>  
+      <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Logout</a>
       </li>    
     </ul>
@@ -112,6 +115,15 @@
               <i class="fas fa-star-of-life"></i>
               <p>
                 Services
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="" class="nav-link">
+              <i class="fas fa-users"></i>
+              <p>
+                Users
               </p>
             </a>
           </li>

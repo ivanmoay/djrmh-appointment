@@ -22,6 +22,14 @@
       <div class="container-fluid">
         <div class="row">
 
+          @if ($message = Session::get('appointment_success'))
+            <script>
+              swal("Appointment booked.", "", "success", {
+                button:"OK",
+              })
+            </script>
+          @endif     
+
           <div class="col-md-6">
             <!-- general form elements -->
             <div class="card card-primary">
@@ -114,11 +122,28 @@
                         if($day == 'Thu'){$day = 'TH';}
                         if($day == 'Fri'){$day = 'F';}
 
+                        $appointments = App\Models\Appointment::
+                                                                where('service_id', $_GET['service_id'])
+                                                                ->where('appointment_date', date('Y-m-d H:i:s', strtotime($_GET['appointment_date'])))
+                                                                ->get();
+                        $scheds = array();
+                        foreach ($appointments as $a) {
+                          array_push($scheds, $a->start_time.'-'.$a->end_time);
+                        }
+
                         $schedules = App\Models\Schedule::where('service_id', $_GET['service_id'])->where('day', $day)->orderBy('start_time')->get();
                       @endphp
                       <select class="form-control" name="appointment_time" required>
                         @foreach ($schedules as $sched)
-                          <option>{{$sched->start_time.'-'.$sched->end_time}}</option>
+                          @php
+                            if(in_array($sched->start_time.'-'.$sched->end_time, $scheds)){
+                              $disabled = 'disabled';
+                            }
+                            else{
+                              $disabled = '';
+                            }
+                          @endphp
+                          <option {{$disabled}} @if (!empty($disabled)) style="color:red;" @endif>{{$sched->start_time.'-'.$sched->end_time}}</option>
                         @endforeach
                       </select>
                     </div>
@@ -145,7 +170,7 @@
                       <div class="col-2">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Ext.(Jr.,Sr.,Etc.)</label>
-                          <input type="input" name="chief_complaint" class="form-control" id="exampleInputEmail1">                    
+                          <input type="input" name="ext_name" class="form-control" id="exampleInputEmail1">                    
                         </div>
                       </div>
                     </div>  
@@ -165,7 +190,7 @@
                       <div class="col-5">
                         <div class="form-group">
                           <label>Sex</label>
-                          <select class="form-control" name="appointment_type">
+                          <select class="form-control" name="sex">
                             <option>Male</option>
                             <option>Female</option>
                           </select>
@@ -207,9 +232,7 @@
                           <input type="input" name="province" class="form-control" id="exampleInputEmail1" required>                    
                         </div>
                       </div>
-                    </div> 
-
-                    
+                    </div>                     
 
 
                   </div>

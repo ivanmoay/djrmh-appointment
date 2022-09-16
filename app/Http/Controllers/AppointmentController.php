@@ -39,29 +39,31 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //parse appointment_time to start and end time
+        $arr = explode("-", $request->appointment_time);
+        $start_time = $arr[0];
+        $end_time = $arr[1];
 
         Appointment::create([
             'hrn' => $request->hrn,
             'chief_complaint' => $request->chief_complaint,
             'appointment_type' => $request->appointment_type,
-            'appointment_date' => $request->appointment_date,
+            'appointment_date' => date('Y-m-d H:i:s', strtotime($request->appointment_date)),
             'service_id' => $request->service_id,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'ext_name' => $request->ext_name,
-            'date_of_birth' => $request->date_of_birth,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'first_name' => ucfirst($request->first_name),
+            'middle_name' => ucfirst($request->middle_name),
+            'last_name' => ucfirst($request->last_name),
+            'ext_name' => ucfirst($request->ext_name),
+            'date_of_birth' => date('Y-m-d H:i:s', strtotime($request->date_of_birth)),
             'sex' => $request->sex,
             'contact_number' => $request->contact_number,
             'social_media' => $request->social_media,
             'barangay' => $request->barangay,
             'city' => $request->city,
             'province' => $request->province,
-            'booked_by' => $request->booked_by,
-            'status' => $request->status
+            'booked_by' => 1,
+            'status' => 'Confirmed'
         ]);
 
         return redirect()->route('appointments.create')->with('appointment_success', 'Appointment saved.');

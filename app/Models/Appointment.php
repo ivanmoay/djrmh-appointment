@@ -31,4 +31,9 @@ class Appointment extends Model
         'booked_by',
         'status'
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

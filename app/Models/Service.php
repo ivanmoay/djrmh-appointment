@@ -17,4 +17,9 @@ class Service extends Model
         'days',
         'start_time'
     ];
+
+    public function appointment()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }
