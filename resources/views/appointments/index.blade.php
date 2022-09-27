@@ -1,3 +1,11 @@
+@if (auth()->user())
+  
+@else 
+  @php
+      
+  @endphp  
+@endif
+
 @extends('layouts.app')
 
 @section('content')
@@ -149,7 +157,7 @@
                         <td>{{$appointment->contact_number}}</td>
                         <td>{{$appointment->status}}</td>
                         <td>{{$appointment->created_at}}</td>
-                        <td>{{$appointment->booked_by}}</td>
+                        <td>{{$appointment->user->username}}</td>
                         <td>
                           <a href="{{route('appointment.edit', $appointment->id)}}"><i class="far fa-edit"></i></a>&nbsp;&nbsp;
                           {{-- <a href=""><i class="fa fa-trash-alt"></i></a>&nbsp;&nbsp; --}}

@@ -24,10 +24,10 @@
 
             <div class="card card-primary card-outline">
               <div class="card-body">
-                <h5 class="card-title">Title</h5>
+                <h5 class="card-title"></h5>
 
                 <p class="card-text">
-                  Some text
+                  Welcome to DJRMH OPD Appointment System.                  
                 </p>
               </div>
             </div><!-- /.card -->

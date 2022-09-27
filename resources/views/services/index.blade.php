@@ -66,9 +66,11 @@
                         <td>{{$service->start_time}}</td>
                         <td>{{$service->enabled == 1 ? 'Yes':'No';}}</td>
                         <td>
-                          <a href="{{route('service.schedule', $service->id)}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
-                          <a href="{{route('services.edit', $service->id)}}"><i class="far fa-edit"></i></a>&nbsp;&nbsp;
-                          <a href="{{route('services.destroy', $service->id)}}"><i class="fa fa-trash-alt"></i></a>&nbsp;&nbsp;
+                          @if (auth()->user()->userlevel >= 2)
+                            <a href="{{route('service.schedule', $service->id)}}"><i class="far fa-eye"></i></a>&nbsp;&nbsp;
+                            <a href="{{route('services.edit', $service->id)}}"><i class="far fa-edit"></i></a>&nbsp;&nbsp;
+                            <a href="{{route('services.destroy', $service->id)}}"><i class="fa fa-trash-alt"></i></a>&nbsp;&nbsp;
+                          @endif                          
                           {{--<form action="" method="post">
                             @csrf
                             @method('DELETE')

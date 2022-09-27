@@ -15,6 +15,10 @@ class ServiceController extends Controller
      */
     public function index()
     {
+        if(!auth()->user()){
+            return view('auth.login');
+        }
+
         $services = service::orderBy('name')->get();
 
         return view('services.index', [
@@ -29,6 +33,10 @@ class ServiceController extends Controller
      */
     public function create()
     {
+        if(!auth()->user()){
+            return view('auth.login');
+        }
+        
         return view('services.create');
     }
 
@@ -121,6 +129,9 @@ class ServiceController extends Controller
 
     public function service_schedule(Service $service)
     {
+        if(!auth()->user()){
+            return view('auth.login');
+        }
 
         $schedule = Schedule::where('service_id', $service->id)->orderBy('start_time')->get();
 
@@ -138,6 +149,10 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
+        if(!auth()->user()){
+            return view('auth.login');
+        }
+        
         return view('services.edit', [
             'service' => $service
         ]);

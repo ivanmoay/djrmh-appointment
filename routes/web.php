@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AppointmentController;
-
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,3 +37,8 @@ Route::get('/appointments/create', [AppointmentController::class, 'create'])->na
 Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 Route::get('/appointments/{appointment}', [AppointmentController::class, 'edit'])->name('appointment.edit');
 Route::post('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
+
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+
+Route::get('/logout', [LogoutController::class, 'store'])->name('logout');

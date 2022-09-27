@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
+        if(!auth()->user()){
+            return view('auth.login');
+        }
+
         $services = service::orderBy('name')->get();
         $appointments = appointment::orderBy('appointment_date');      
         
@@ -51,6 +51,10 @@ class AppointmentController extends Controller
      */
     public function create()
     {
+        if(!auth()->user()){
+            return view('auth.login');
+        }
+
         return view('appointments.create');
     }
 
@@ -85,7 +89,7 @@ class AppointmentController extends Controller
             'barangay' => $request->barangay,
             'city' => $request->city,
             'province' => $request->province,
-            'booked_by' => 1,
+            'booked_by' => auth()->user()->id,
             'status' => 'Confirmed'
         ]);
 
@@ -111,6 +115,10 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
+        if(!auth()->user()){
+            return view('auth.login');
+        }
+
         return view('appointments.edit', [
             'appointment' => $appointment
         ]);

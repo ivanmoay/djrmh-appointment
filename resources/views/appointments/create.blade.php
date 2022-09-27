@@ -102,6 +102,18 @@
                   </div>
                 </form>
               @else
+                @php
+                  //http://192.120.0.128:8080/djrmh-rest-api/api.php?hpercode=99226
+                  $response = json_decode(Http::get('http://192.120.0.128:8080/djrmh-rest-api/api.php', [
+                      'hpercode' => $_GET['hrn']
+                  ]));
+
+                  //echo $response->patlast;
+
+                  //dd($response);                   
+
+
+                @endphp
                 <form action="{{route('appointments.store')}}" method="POST">
                   @csrf
                   <div class="card-body">    
@@ -153,25 +165,25 @@
                       <div class="col-3">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Last Name</label>
-                          <input type="input" name="last_name" class="form-control" id="exampleInputEmail1" required>                    
+                          <input type="input" name="last_name" class="form-control" id="exampleInputEmail1" value="{{$response->patlast}}" required>                    
                         </div>
                       </div>
                       <div class="col-3">
                         <div class="form-group">
                           <label for="exampleInputEmail1">First Name</label>
-                          <input type="input" name="first_name" class="form-control" id="exampleInputEmail1" required>                    
+                          <input type="input" name="first_name" class="form-control" id="exampleInputEmail1" value="{{$response->patfirst}}"required>                    
                         </div>
                       </div>
                       <div class="col-3">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Middle Name</label>
-                          <input type="input" name="middle_name" class="form-control" id="exampleInputEmail1" required>                    
+                          <input type="input" name="middle_name" class="form-control" id="exampleInputEmail1" value="{{$response->patmiddle}}" required>                    
                         </div>
                       </div>
                       <div class="col-2">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Ext.(Jr.,Sr.,Etc.)</label>
-                          <input type="input" name="ext_name" class="form-control" id="exampleInputEmail1">                    
+                          <input type="input" name="ext_name" class="form-control" id="exampleInputEmail1" value="{{$response->patsuffix}}">                    
                         </div>
                       </div>
                     </div>  
@@ -180,7 +192,7 @@
                       <div class="col-5">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Date of Birth</label>
-                          <input id="datepicker2" name="date_of_birth" required/>  
+                          <input id="datepicker2" name="date_of_birth" required value="{{date('m/d/Y', strtotime($response->patbdate))}}"/>  
                           <script>
                             $('#datepicker2').datepicker({
                                 uiLibrary: 'bootstrap4'                          
@@ -192,8 +204,8 @@
                         <div class="form-group">
                           <label>Sex</label>
                           <select class="form-control" name="sex">
-                            <option>Male</option>
-                            <option>Female</option>
+                            <option {{$response->patsex == 'M' ? 'selected' : ''}}>Male</option>
+                            <option {{$response->patsex == 'F' ? 'selected' : ''}}>Female</option>
                           </select>
                         </div>
                       </div>
