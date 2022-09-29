@@ -103,8 +103,8 @@
                 </form>
               @else
                 @php
-                  //http://192.120.0.128:8080/djrmh-rest-api/api.php?hpercode=99226
-                  $response = json_decode(Http::get('http://192.120.0.128:8080/djrmh-rest-api/api.php', [
+                  //http://192.120.0.250/djrmh-rest-api/api.php?hpercode=99226
+                  $response = json_decode(Http::get('http://192.120.0.250/djrmh-rest-api/api.php', [
                       'hpercode' => $_GET['hrn']
                   ]));
 
