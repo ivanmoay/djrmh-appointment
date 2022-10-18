@@ -42,6 +42,14 @@
                     })
                   </script>
                 @endif 
+
+                @if ($message = Session::get('delete_success'))
+                  <script>
+                    swal("Appointment deleted.", "", "success", {
+                      button:"OK",
+                    })
+                  </script>
+                @endif 
                 
                 @php            
                     /*echo 'xxxxx: '. session('key');        
@@ -152,7 +160,7 @@
                         <td>{{$appointment->chief_complaint}}</td>
                         <td>{{$appointment->appointment_type}}</td>
                         <td>{{$appointment->appointment_date}}</td>
-                        <td>{{$appointment->service->name}}</td>
+                        <td>{{@$appointment->service->name}}</td>
                         <td>{{$appointment->start_time.'-'.$appointment->end_time}}</td>
                         <td>{{$appointment->contact_number}}</td>
                         <td>{{$appointment->status}}</td>

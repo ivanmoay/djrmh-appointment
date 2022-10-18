@@ -133,9 +133,22 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
+        if($request->status == 'Delete'){
+            $appointment->delete();
+
+            return redirect()->route('appointments')->with('delete_success', 'Appointment deleted.');
+        }
+
         $appointment->update([
             'status' => $request->status
         ]);
+
+        if($request->status == 'Reschedule')
+        {
+            return view('appointments.create', [
+                'appointment' => $appointment
+            ]);
+        }            
 
         return redirect()->route('appointments')->with('update_success', 'Appointment updated.');
     }

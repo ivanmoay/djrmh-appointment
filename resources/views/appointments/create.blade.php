@@ -53,12 +53,12 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label for="exampleInputEmail1">HRN</label>
-                      <input type="input" name="hrn" class="form-control" id="exampleInputEmail1" value="{{@$_GET['hrn']}}" required>                    
+                      <input type="input" name="hrn" class="form-control" id="exampleInputEmail1" value="{{isset($appointment) ? @$appointment->hrn : @$_GET['hrn']}}" required>                    
                     </div>
 
                     <div class="form-group">
                       <label for="exampleInputEmail1">Chief Complaint</label>
-                      <input type="input" name="chief_complaint" class="form-control" id="exampleInputEmail1" value="{{@$_GET['chief_complaint']}}" required>                    
+                      <input type="input" name="chief_complaint" class="form-control" id="exampleInputEmail1" value="{{isset($appointment) ? @$appointment->chief_complaint : @$_GET['chief_complaint']}}" required>                    
                     </div>
 
                     <div class="form-group">
@@ -165,25 +165,25 @@
                       <div class="col-3">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Last Name</label>
-                          <input type="input" name="last_name" class="form-control" id="exampleInputEmail1" value="{{$response->patlast}}" required>                    
+                          <input type="input" name="last_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patlast}}" required>                    
                         </div>
                       </div>
                       <div class="col-3">
                         <div class="form-group">
                           <label for="exampleInputEmail1">First Name</label>
-                          <input type="input" name="first_name" class="form-control" id="exampleInputEmail1" value="{{$response->patfirst}}"required>                    
+                          <input type="input" name="first_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patfirst}}"required>                    
                         </div>
                       </div>
                       <div class="col-3">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Middle Name</label>
-                          <input type="input" name="middle_name" class="form-control" id="exampleInputEmail1" value="{{$response->patmiddle}}" required>                    
+                          <input type="input" name="middle_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patmiddle}}" required>                    
                         </div>
                       </div>
                       <div class="col-2">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Ext.(Jr.,Sr.,Etc.)</label>
-                          <input type="input" name="ext_name" class="form-control" id="exampleInputEmail1" value="{{$response->patsuffix}}">                    
+                          <input type="input" name="ext_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patsuffix}}">                    
                         </div>
                       </div>
                     </div>  
@@ -192,7 +192,7 @@
                       <div class="col-5">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Date of Birth</label>
-                          <input id="datepicker2" name="date_of_birth" required value="{{date('m/d/Y', strtotime($response->patbdate))}}"/>  
+                          <input id="datepicker2" name="date_of_birth" required value="{{date('m/d/Y', strtotime(@$response->patbdate))}}"/>  
                           <script>
                             $('#datepicker2').datepicker({
                                 uiLibrary: 'bootstrap4'                          
@@ -204,8 +204,8 @@
                         <div class="form-group">
                           <label>Sex</label>
                           <select class="form-control" name="sex">
-                            <option {{$response->patsex == 'M' ? 'selected' : ''}}>Male</option>
-                            <option {{$response->patsex == 'F' ? 'selected' : ''}}>Female</option>
+                            <option {{@$response->patsex == 'M' ? 'selected' : ''}}>Male</option>
+                            <option {{@$response->patsex == 'F' ? 'selected' : ''}}>Female</option>
                           </select>
                         </div>
                       </div>

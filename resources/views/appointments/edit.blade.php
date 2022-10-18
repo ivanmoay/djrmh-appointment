@@ -55,7 +55,7 @@
                       <div class="form-group">
                         <label>Service</label>
                         <select class="form-control" name="service_id" disabled>
-                            <option value="{{$appointment->service_id}}">{{$appointment->service->name}}</option>                       
+                            <option value="{{$appointment->service_id}}">{{@$appointment->service->name}}</option>                       
                         </select>
                       </div>
       
@@ -168,7 +168,11 @@
                           <option {{$appointment->status == 'Pending' ? 'selected' : ''}}>Pending</option>
                           <option {{$appointment->status == 'Seen' ? 'selected' : ''}}>Seen</option>
                           <option {{$appointment->status == 'Not Around' ? 'selected' : ''}}>Not Around</option>
+                          <option {{$appointment->status == 'Reschedule' ? 'selected' : ''}}>Reschedule</option>
                           <option {{$appointment->status == 'Cancelled' ? 'selected' : ''}}>Cancelled</option>
+                          @if (auth()->user()->userlevel >= 2)
+                          <option>Delete</option>
+                          @endif
                         </select>
                       </div>
                   </div>
