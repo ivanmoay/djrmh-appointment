@@ -29,7 +29,7 @@
       <div class="container-fluid">
         <div class="row">
 
-          <div class="col-md-8">
+          <div class="col-md-12">
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
@@ -65,18 +65,20 @@
               <form>
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-2">
+                    <div class="col-1">
                       <div class="form-group">
                         <label for="exampleInputEmail1">HRN</label>
                         <input type="text" class="form-control" id="exampleInputEmail1" name="s_hrn" placeholder="" value="{{@$_GET['s_hrn']}}">
                       </div>
                     </div> 
+
                     <div class="col-3">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Patient Name</label>
                         <input type="text" class="form-control" id="exampleInputEmail1" name="s_name" placeholder="" value="{{@$_GET['s_name']}}">
                       </div>
-                    </div>    
+                    </div>  
+
                     <div class="col-2">
                       <div class="form-group">
                         <label>Service</label>
@@ -91,7 +93,7 @@
 
                     <div class="col-2">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Appointment Date</label>
+                        <label for="exampleInputEmail1">Date From</label>
                         {{--<input type="text" class="form-control" id="exampleInputEmail1" name="s_appointment_date" placeholder="">--}}
                         <input id="datepicker" name="s_appointment_date" value="{{@$_GET['s_appointment_date']}}"/>  
                         <script>
@@ -100,9 +102,21 @@
                           });
                       </script> 
                       </div>
-                    </div>     
+                    </div>  
 
-                    <div class="col-3">
+                    <div class="col-2">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Date To</label>
+                        <input id="datepicker2" name="s_appointment_date_to" value="{{@$_GET['s_appointment_date_to']}}"/>  
+                        <script>
+                          $('#datepicker2').datepicker({
+                              uiLibrary: 'bootstrap4'                          
+                          });
+                      </script> 
+                      </div>
+                    </div>  
+
+                    <div class="col-2">
                       <div class="form-group">
                         <label for="exampleInputEmail1">&nbsp;</label><br/>
                         <button type="submit" name="search" class="btn btn-block btn-primary">Filter</button>
@@ -133,7 +147,7 @@
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
+              <div class="card-body table-responsive p-0">                
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
@@ -179,7 +193,8 @@
                     @endif
                   </tbody>
                 </table>
-              </div>
+                {{$appointments->links()}}
+              </div>              
               <!-- /.card-body -->
             </div>
           </div>

@@ -16,8 +16,8 @@ class AppointmentController extends Controller
         }
 
         $services = service::orderBy('name')->get();
-        $appointments = appointment::orderBy('appointment_date');      
-        
+        $appointments = appointment::orderBy('last_name'); 
+
         if(isset($_GET['search'])){
             /*$appointments
                 ->orWhere('hrn', 'like', '%'.$_GET['s_hrn'].'%')
@@ -32,14 +32,16 @@ class AppointmentController extends Controller
                 $appointments
                     ->where('service_id', $_GET['s_service_id']);
             }
-            if(!empty($_GET['s_appointment_date'])){
+            if(!empty($_GET['s_appointment_date']) && !empty($_GET['s_appointment_date_to'])){
                 $appointments
-                    ->where('appointment_date', date('Y-m-d H:i:s', strtotime($_GET['s_appointment_date'])));
+                    ->where('appointment_date', '>=', date('Y-m-d H:i:s', strtotime($_GET['s_appointment_date'])))
+                    ->where('appointment_date', '<=', date('Y-m-d H:i:s', strtotime($_GET['s_appointment_date_to'])))
+                ;
             }
         }
 
         return view('appointments.index', [
-            'appointments' => $appointments->get(),
+            'appointments' => $appointments->paginate(100),
             'services' => $services
         ]);
     }
