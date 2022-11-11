@@ -47,4 +47,5 @@ Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 
 Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 
-Route::get('/print_appointment', [PDFController::class, 'print_appointment'])->name('print_appointment');
+Route::get('print_appointments', [PdfController::class, 'print_appointments'])->name('print_appointments');
+Route::get('print_date_booked', [PdfController::class, 'print_date_booked'])->name('print_date_booked');
