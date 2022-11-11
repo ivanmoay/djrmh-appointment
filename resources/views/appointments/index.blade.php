@@ -139,11 +139,14 @@
               <div class="card-header">
                 <h3 class="card-title"></h3>
                 <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">                    
-                      
-                      <a href="{{route('appointments.create')}}" class="btn btn-block btn-primary" role="button" aria-pressed="true">Add Appointment</a>
-                    
-                  </div>
+                  <div class="row">
+                    <div class="input-group input-group-sm" style="width: 200px;">
+                      <a href="print_appointment?s_hrn={{@$_GET['s_hrn']}}&s_name={{@$_GET['s_name']}}&s_service_id={{@$_GET['s_service_id']}}&s_appointment_date={{@$_GET['s_appointment_date']}}&s_appointment_date_to={{@$_GET['s_appointment_date_to']}}" class="btn btn-block btn-primary" role="button" aria-pressed="true">Print Appointments</a>                    
+                    </div> &nbsp;  
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                      <a href="{{route('appointments.create')}}" class="btn btn-block btn-primary" role="button" aria-pressed="true">Add Appointment</a>                    
+                    </div> 
+                  </div>    
                 </div>
               </div>
               <!-- /.card-header -->

@@ -41,7 +41,7 @@ class AppointmentController extends Controller
         }
 
         return view('appointments.index', [
-            'appointments' => $appointments->paginate(100),
+            'appointments' => $appointments->paginate(400),
             'services' => $services
         ]);
     }
@@ -147,8 +147,12 @@ class AppointmentController extends Controller
 
         if($request->status == 'Reschedule')
         {
-            return view('appointments.create', [
+            /*return view('appointments.create', [
                 'appointment' => $appointment
+            ]);*/
+
+            return redirect()->route('appointments.create', [
+                'id' => $appointment
             ]);
         }            
 

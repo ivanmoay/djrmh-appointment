@@ -6,6 +6,8 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PDFController;
+use App\Http\Controllers\TestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +22,8 @@ use App\Http\Controllers\LogoutController;
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/test', [TestController::class, 'index'])->name('test');
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services');
 Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
@@ -42,3 +46,5 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 
 Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
+
+Route::get('/print_appointment', [PDFController::class, 'print_appointment'])->name('print_appointment');

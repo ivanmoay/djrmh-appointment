@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
+        //\Blade::setEchoFormat('e(utf8_encode(%s))');
     }
 }

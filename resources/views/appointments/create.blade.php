@@ -53,6 +53,9 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label for="exampleInputEmail1">HRN</label>
+                      @php
+                        $appointment = App\Models\Appointment::where('id', @$_GET['id'])->first();
+                      @endphp
                       <input type="input" name="hrn" class="form-control" id="exampleInputEmail1" value="{{isset($appointment) ? @$appointment->hrn : @$_GET['hrn']}}" required>                    
                     </div>
 
@@ -211,17 +214,21 @@
                       </div>
                     </div> 
 
+                    @php
+                      $patient_details = App\Models\Appointment::where('hrn', $_GET['hrn'])->first();
+                    @endphp
+
                     <div class="row">
                       <div class="col-5">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Contact Number</label>
-                          <input type="input" name="contact_number" class="form-control" id="exampleInputEmail1" required>                    
+                          <input type="input" name="contact_number" class="form-control" id="exampleInputEmail1" value="{{@$patient_details->contact_number}}" required>                    
                         </div>
                       </div>
                       <div class="col-5">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Social Media</label>
-                          <input type="input" name="social_media" class="form-control" id="exampleInputEmail1" required>                    
+                          <input type="input" name="social_media" class="form-control" id="exampleInputEmail1" value="{{@$patient_details->social_media}}" required>                    
                         </div>
                       </div>
                     </div> 
@@ -230,19 +237,19 @@
                       <div class="col-4">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Barangay</label>
-                          <input type="input" name="barangay" class="form-control" id="exampleInputEmail1" required>                    
+                          <input type="input" name="barangay" class="form-control" id="exampleInputEmail1" value="{{@$patient_details->barangay}}" required>                    
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group">
                           <label for="exampleInputEmail1">City</label>
-                          <input type="input" name="city" class="form-control" id="exampleInputEmail1" required>                    
+                          <input type="input" name="city" class="form-control" id="exampleInputEmail1" value="{{@$patient_details->city}}" required>                    
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Province</label>
-                          <input type="input" name="province" class="form-control" id="exampleInputEmail1" required>                    
+                          <input type="input" name="province" class="form-control" id="exampleInputEmail1" value="{{@$patient_details->province}}" required>                    
                         </div>
                       </div>
                     </div>                     
