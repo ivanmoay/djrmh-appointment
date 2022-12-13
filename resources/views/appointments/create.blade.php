@@ -29,6 +29,7 @@
               })
             </script>
           @endif     
+          
 
           <div class="col-md-6">
             <!-- general form elements -->
@@ -38,16 +39,9 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-
-              @php
-                  if(isset($_GET['form1'])){
-                    $day = date('D', strtotime($_GET['appointment_date']));
-                    if($day == 'Sat' || $day == 'Sun'){
-                      $date_error = true;
-                    }                    
-                  }
-              @endphp
-              @if(!isset($_GET['form1']) || @$date_error)
+              
+                        
+              @if(!isset($_GET['form1']) || isset($_GET['hrn']) && !isset($_GET['last_name']))              
                 <form action="#" method="GET">
                   {{--@csrf--}}
                   <div class="card-body">
@@ -56,46 +50,83 @@
                       @php
                         $appointment = App\Models\Appointment::where('id', @$_GET['id'])->first();
                       @endphp
-                      <input type="input" name="hrn" class="form-control" id="exampleInputEmail1" value="{{isset($appointment) ? @$appointment->hrn : @$_GET['hrn']}}" required>                    
+                      <input type="input" name="hrn" class="form-control" id="exampleInputEmail1" value="{{isset($appointment) ? @$appointment->hrn : @$_GET['hrn']}}" {{isset($_GET['hrn']) ? 'readonly' : ''}} required>                    
                     </div>
 
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">Chief Complaint</label>
-                      <input type="input" name="chief_complaint" class="form-control" id="exampleInputEmail1" value="{{isset($appointment) ? @$appointment->chief_complaint : @$_GET['chief_complaint']}}" required>                    
-                    </div>
+                    @if (isset($_GET['hrn']))
 
-                    <div class="form-group">
-                      <label>Appointment Type</label>
-                      <select class="form-control" name="appointment_type">
-                        <option {{@$_GET['appointment_type'] == 'New' ? 'selected' : ''}}>New</option>
-                        <option {{@$_GET['appointment_type'] == 'Follow-up' ? 'selected' : ''}}>Follow-up</option>
-                      </select>
-                    </div>
+                      @php
+                        $response = json_decode(Http::get('http://192.120.0.250/djrmh-rest-api/api.php', [
+                            'hpercode' => $_GET['hrn']
+                        ]));
+                      @endphp
 
-                    <div class="form-group">
-                      <label>Service</label>
-                      <select class="form-control" name="service_id" required>
-                        @php
-                          $services = App\Models\Service::orderBy('name')->get();
-                        @endphp
-                        <option value="">...</option>
-                        @foreach ($services as $service)
-                          <option value="{{$service->id}}">{{$service->name}}</option>
-                        @endforeach                        
-                      </select>
-                    </div>
-    
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">Date @if (@$date_error)
-                        <code>{{'Error: only weekdays are allowed.'}}</code>
-                      @endif</label>
-                      <input id="datepicker" name="appointment_date" value="{{@$_GET['appointment_date']}}" required/>  
-                      <script>
-                        $('#datepicker').datepicker({
-                            uiLibrary: 'bootstrap4'                          
-                        });
-                      </script>              
-                    </div> 
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Last Name</label>
+                            <input type="input" name="last_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patlast}}" required>                    
+                          </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">First Name</label>
+                            <input type="input" name="first_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patfirst}}"required>                    
+                          </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Middle Name</label>
+                            <input type="input" name="middle_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patmiddle}}" required>                    
+                          </div>
+                        </div>
+                        <div class="col-2">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Ext.(Jr.,Sr.,Etc.)</label>
+                            <input type="input" name="ext_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patsuffix}}">                    
+                          </div>
+                        </div>
+                      </div>  
+
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Chief Complaint</label>
+                        <input type="input" name="chief_complaint" class="form-control" id="exampleInputEmail1" value="{{isset($appointment) ? @$appointment->chief_complaint : @$_GET['chief_complaint']}}" required>                    
+                      </div>
+
+                      <div class="form-group">
+                        <label>Appointment Type</label>
+                        <select class="form-control" name="appointment_type">
+                          <option {{@$_GET['appointment_type'] == 'New' ? 'selected' : ''}}>New</option>
+                          <option {{@$_GET['appointment_type'] == 'Follow-up' ? 'selected' : ''}}>Follow-up</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Service</label>
+                        <select class="form-control" name="service_id" required>
+                          @php
+                            $services = App\Models\Service::orderBy('name')->get();
+                          @endphp
+                          <option value="">...</option>
+                          @foreach ($services as $service)
+                            <option value="{{$service->id}}">{{$service->name}}</option>
+                          @endforeach                        
+                        </select>
+                      </div>
+      
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Date @if (@$date_error)
+                          <code>{{'Error: only weekdays are allowed.'}}</code>
+                        @endif</label>
+                        <input id="datepicker" name="appointment_date" value="{{@$_GET['appointment_date']}}" required/>  
+                        <script>
+                          $('#datepicker').datepicker({
+                              uiLibrary: 'bootstrap4'                          
+                          });
+                        </script>              
+                      </div> 
+                        
+                    @endif                    
 
                   </div>
                   <!-- /.card-body -->
@@ -105,18 +136,26 @@
                   </div>
                 </form>
               @else
+
+              @php
+                     
+                  // if(isset($_GET['form1'])){
+                       
+                  //   $day = date('D', strtotime($_GET['appointment_date']));
+                    
+                  //   if($day == 'Sat' || $day == 'Sun'){
+                  //     $date_error = true;
+                  //   }                    
+                  // }  
+         
+              @endphp   
+
                 @php
-                  //http://192.120.0.250/djrmh-rest-api/api.php?hpercode=99226
                   $response = json_decode(Http::get('http://192.120.0.250/djrmh-rest-api/api.php', [
                       'hpercode' => $_GET['hrn']
                   ]));
-
-                  //echo $response->patlast;
-
-                  //dd($response);                   
-
-
                 @endphp
+
                 <form action="{{route('appointments.store')}}" method="POST">
                   @csrf
                   <div class="card-body">    
@@ -126,6 +165,11 @@
                     <input type="hidden" name="appointment_type" value="{{$_GET['appointment_type']}}">
                     <input type="hidden" name="service_id" value="{{$_GET['service_id']}}">
                     <input type="hidden" name="appointment_date" value="{{$_GET['appointment_date']}}">
+
+                    <input type="hidden" name="last_name" value="{{$_GET['last_name']}}">
+                    <input type="hidden" name="first_name" value="{{$_GET['first_name']}}">
+                    <input type="hidden" name="middle_name" value="{{$_GET['middle_name']}}">
+                    <input type="hidden" name="ext_name" value="{{$_GET['ext_name']}}">
                     
                     <div class="form-group">
                       <label>Time</label>
@@ -164,7 +208,7 @@
                       </select>
                     </div>
                     
-                    <div class="row">
+                    {{-- <div class="row">
                       <div class="col-3">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Last Name</label>
@@ -189,7 +233,7 @@
                           <input type="input" name="ext_name" class="form-control" id="exampleInputEmail1" value="{{@$response->patsuffix}}">                    
                         </div>
                       </div>
-                    </div>  
+                    </div>   --}}
                     
                     <div class="row">
                       <div class="col-5">
