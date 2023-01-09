@@ -24,13 +24,12 @@
 
           @if ($message = Session::get('appointment_success'))
             <script>
-              swal("Appointment booked.", "", "success", {
+              swal({!! json_encode($message) !!}, "", "success", {
                 button:"OK",
               })
             </script>
           @endif     
           
-
           <div class="col-md-6">
             <!-- general form elements -->
             <div class="card card-primary">

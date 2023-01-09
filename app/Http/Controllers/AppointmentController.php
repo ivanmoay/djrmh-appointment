@@ -72,7 +72,7 @@ class AppointmentController extends Controller
         $start_time = $arr[0];
         $end_time = $arr[1];
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'hrn' => $request->hrn,
             'chief_complaint' => $request->chief_complaint,
             'appointment_type' => $request->appointment_type,
@@ -95,7 +95,8 @@ class AppointmentController extends Controller
             'status' => 'Confirmed'
         ]);
 
-        return redirect()->route('appointments.create')->with('appointment_success', 'Appointment saved.');
+
+        return redirect()->route('appointments.create')->with('appointment_success', 'Appointment booked. Ref #: '.$appointment->id);
     }
 
     /**

@@ -157,6 +157,7 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
+                      <th>Ref #</th>
                       <th>HRN</th>
                       <th>Name</th>
                       <th>Chief Complaint</th>
@@ -175,6 +176,7 @@
                     @if($appointments->count())
                     @foreach ($appointments as $appointment)
                       <tr>
+                        <td>{{$appointment->id}}</td>
                         <td>{{$appointment->hrn}}</td>
                         <td>{{$appointment->last_name.', '.$appointment->first_name.' '.$appointment->middle_name.' '.$appointment->ext_name}}</td>
                         <td>{{$appointment->chief_complaint}}</td>
