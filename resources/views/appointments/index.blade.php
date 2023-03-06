@@ -95,24 +95,26 @@
                       <div class="form-group">
                         <label for="exampleInputEmail1">Date From</label>
                         {{--<input type="text" class="form-control" id="exampleInputEmail1" name="s_appointment_date" placeholder="">--}}
-                        <input id="datepicker" name="s_appointment_date" value="{{@$_GET['s_appointment_date']}}"/>  
-                        <script>
+                        {{-- <input id="datepicker" name="s_appointment_date" value="{{@$_GET['s_appointment_date']}}"/>   --}}
+                        <input type="date" class="form-control" name="s_appointment_date" id="s_appointment_date" value="{{@$_GET['s_appointment_date']}}">
+                        {{-- <script>
                           $('#datepicker').datepicker({
                               uiLibrary: 'bootstrap4'                          
                           });
-                      </script> 
+                        </script>  --}}
                       </div>
                     </div>  
 
                     <div class="col-2">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Date To</label>
-                        <input id="datepicker2" name="s_appointment_date_to" value="{{@$_GET['s_appointment_date_to']}}"/>  
-                        <script>
+                        {{-- <input id="datepicker2" name="s_appointment_date_to" value="{{@$_GET['s_appointment_date_to']}}"/> --}}
+                        <input type="date" class="form-control" name="s_appointment_date_to" id="s_appointment_date_to" value="{{@$_GET['s_appointment_date_to']}}">  
+                        {{-- <script>
                           $('#datepicker2').datepicker({
                               uiLibrary: 'bootstrap4'                          
                           });
-                      </script> 
+                        </script>  --}}
                       </div>
                     </div>  
 
@@ -187,7 +189,7 @@
                         <td>{{$appointment->contact_number}}</td>
                         <td>{{$appointment->status}}</td>
                         <td>{{$appointment->created_at}}</td>
-                        <td>{{$appointment->user->username}}</td>
+                        <td>{{@$appointment->user->username}}</td>
                         <td>
                           <a href="{{route('appointment.edit', $appointment->id)}}"><i class="far fa-edit"></i></a>&nbsp;&nbsp;
                           {{-- <a href=""><i class="fa fa-trash-alt"></i></a>&nbsp;&nbsp; --}}

@@ -117,12 +117,13 @@
                         <label for="exampleInputEmail1">Date @if (@$date_error)
                           <code>{{'Error: only weekdays are allowed.'}}</code>
                         @endif</label>
-                        <input id="datepicker" name="appointment_date" value="{{@$_GET['appointment_date']}}" required/>  
+                        <input type="date" class="form-control" name="appointment_date" id="appointment_date" value="{{@$_GET['appointment_date']}}" required>
+                        {{-- <input id="datepicker" name="appointment_date" value="{{@$_GET['appointment_date']}}" required/>  
                         <script>
                           $('#datepicker').datepicker({
                               uiLibrary: 'bootstrap4'                          
                           });
-                        </script>              
+                        </script>               --}}
                       </div> 
                         
                     @endif                    
@@ -238,12 +239,13 @@
                       <div class="col-5">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Date of Birth</label>
-                          <input id="datepicker2" name="date_of_birth" required value="{{date('m/d/Y', strtotime(@$response->patbdate))}}"/>  
+                          <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{date('m/d/Y', strtotime(@$response->patbdate))}}">
+                          {{-- <input id="datepicker2" name="date_of_birth" required value="{{date('m/d/Y', strtotime(@$response->patbdate))}}"/>  
                           <script>
                             $('#datepicker2').datepicker({
                                 uiLibrary: 'bootstrap4'                          
                             });
-                        </script>              
+                          </script>               --}}
                         </div> 
                       </div>
                       <div class="col-5">
