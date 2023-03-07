@@ -81,7 +81,7 @@
 				<td class="tr bleft bright bbottom btop" align="center" width="8%"  >{{$appointment->contact_number}}</td>
 				<td class="tr bleft bright bbottom btop" align="center" width="6%"  >{{$appointment->status}}</td>
 				<td class="tr bleft bright bbottom btop" align="center" width="10%"  >{{$appointment->created_at}}</td>
-				<td class="tr bleft bright bbottom btop" align="center" width="8%"  >{{$appointment->user->username}}</td>
+				<td class="tr bleft bright bbottom btop" align="center" width="8%"  >{{@$appointment->user->username}}</td>
 			</tr>
 		@endforeach
 		@else
