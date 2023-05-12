@@ -260,7 +260,7 @@
                     </div> 
 
                     @php
-                      $patient_details = App\Models\Appointment::where('hrn', $_GET['hrn'])->first();
+                      $patient_details = App\Models\Appointment::where('hrn', $_GET['hrn'])->latest()->first();
                     @endphp
 
                     <div class="row">
