@@ -58,6 +58,10 @@
                         $response = json_decode(Http::get('http://192.120.0.250/djrmh-rest-api/api.php', [
                             'hpercode' => $_GET['hrn']
                         ]));
+
+                        if($_GET['hrn'] == 0){
+                          $response = [];
+                        }
                       @endphp
 
                       <div class="row">
@@ -239,7 +243,20 @@
                       <div class="col-5">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Date of Birth</label>
-                          <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{date('m/d/Y', strtotime(@$response->patbdate))}}">
+                          @php
+                            $patient_details = App\Models\Appointment::where('hrn', $_GET['hrn'])->latest()->first();       
+                            
+                            $bday = '';
+                            if($_GET['hrn'] == 0){
+                              $patient_details = [];
+                            }else{
+                              if(!is_null($patient_details)){
+                                $bday = Carbon\Carbon::parse($patient_details->date_of_birth)->toDateString();
+                              }
+                            }                                                        
+                            
+                          @endphp
+                          <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ $bday }}">
                           {{-- <input id="datepicker2" name="date_of_birth" required value="{{date('m/d/Y', strtotime(@$response->patbdate))}}"/>  
                           <script>
                             $('#datepicker2').datepicker({
@@ -260,7 +277,8 @@
                     </div> 
 
                     @php
-                      $patient_details = App\Models\Appointment::where('hrn', $_GET['hrn'])->latest()->first();
+                      
+                      //dd($patient_details);
                     @endphp
 
                     <div class="row">
